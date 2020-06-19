@@ -6,8 +6,7 @@ conceicaocabral.com django project code.
 A website with 5 apps:
 
 - A products app;
-- A blog app;
-- A galery app;
+- A galery/blog app;
 - A user management app;
 - A product/service subscription app.
 
