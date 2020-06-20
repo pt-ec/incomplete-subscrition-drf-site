@@ -2,7 +2,8 @@ from rest_framework import generics, viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.generics import get_object_or_404
 
-from api_project.api.permissions import IsAdminUserOrReadOnly
+from api_project.api.permissions import (IsAdminUserOrReadOnly,
+                                         IsOwnerOrReadOnly)
 from api_project.api.pagination import NinePagination
 from .serializers import (VideoSerializer, VideoClassSerializer,
                           VideoClassSectionSerializer,
@@ -11,10 +12,10 @@ from .serializers import (VideoSerializer, VideoClassSerializer,
 from subscription_classes.models import (Video, VideoClass,
                                          VideoClassSection)
 from .permissions import IsSubscribed
-from profiles.models import Comment
+from profiles.models import Comment, Review
 
 
-class VideoClassListCreateAPIView(generics.ListCreateAPIView):
+class VideoClassViewset(viewsets.ModelViewSet):
     """ Video class list create api view """
     queryset = VideoClass.objects.filter(visible=True)
     serializer_class = VideoClassSerializer
@@ -33,7 +34,7 @@ class VideoRetrieveAPIView(generics.RetrieveAPIView):
     permission_classes = (IsSubscribed,)
 
 
-class VideoClassReviewAPIView(generics.CreateAPIView):
+class ReviewVideoClassAPIView(generics.CreateAPIView):
     queryset = Review.objects.all()
     serializer_class = VideoClassReviewSerializer
     permission_classes = (IsSubscribedOrReadOnly,)
@@ -53,6 +54,13 @@ class VideoClassReviewAPIView(generics.CreateAPIView):
         serializer.save(user=user, kit=kit)
 
 
+class ReviewVideoClassDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    """ Review a video class """
+    queryset = Review.objects.all()
+    serializer_class = VideoClassReviewSerializer
+    permission_classes = (IsOwnerOrReadOnly,)
+
+
 class CommentVideoAPIView(generics.CreateAPIView):
     """ Create a comment in a video """
     queryset = Comment.objects.all()
@@ -65,3 +73,10 @@ class CommentVideoAPIView(generics.CreateAPIView):
         user = self.request.user
 
         serializer.save(user=user, video=video)
+
+
+class CommentVideoDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    """ Retrieve update destroy comment this Video """
+    queryset = Comment.objects.all()
+    serializer_class = VideoCommentSerializer
+    permission_classes = (IsOwnerOrReadOnly,)
