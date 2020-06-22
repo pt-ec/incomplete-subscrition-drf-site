@@ -28,6 +28,9 @@ class Address(models.Model):
 
 class Subscription(models.Model):
     """ Subscription Plan intermedy bebore addding to profile """
+    related_to_model = models.CharField(max_length=50, blank=True)
+    related_to_name = models.CharField(max_length=150, blank=True)
+    related_to_pk = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     subscription_plan = models.ForeignKey(
         SubscriptionPlan, on_delete=models.CASCADE)

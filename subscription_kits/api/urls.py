@@ -2,8 +2,9 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from .views import (CategoryViewSet, KitViewSet,
-                    CreateKitReviewAPIView,
                     SubscribeToKitAPIView,
+                    KitReviewCreateAPIView,
+                    KitReviewListAPIView,
                     KitReviewDetailAPIView)
 
 
@@ -14,15 +15,19 @@ router.register(r'', KitViewSet, basename='kits')
 urlpatterns = [
     path('', include(router.urls)),
 
-    path('<int:kit_pk>/subscribe',
+    path('<int:kit_pk>/subscribe/',
          SubscribeToKitAPIView.as_view(),
          name='kit-subscribe'),
 
-    path('<int:kit_pk>/review',
-         CreateKitReviewAPIView.as_view(),
-         name='kit-review'),
+    path('<int:kit_pk>/review/',
+         KitReviewCreateAPIView.as_view(),
+         name='kit-review-create'),
 
-    path('reviews/<int:pk>/',
+    path('<int:kit_pk>/reviews/',
+         KitReviewListAPIView.as_view(),
+         name='kit-reviews'),
+
+    path('kit-reviews/<int:pk>/',
          KitReviewDetailAPIView.as_view(),
-         name='kit-review-detail'),
+         name='kit-review'),
 ]

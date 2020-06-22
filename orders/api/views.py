@@ -25,7 +25,7 @@ class AddToCartAPIView(APIView):
     """ Add or update quatities of products to cart """
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self, request, product_pk):
+    def post(self, request, product_pk):
         item = get_object_or_404(Product, pk=product_pk,
                                  stock__gt=0, available=True)
 
@@ -70,7 +70,7 @@ class RemoveFromCartAPIView(APIView):
     """
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self, request, product_pk):
+    def post(self, request, product_pk):
         item = get_object_or_404(Product, pk=product_pk)
         orders = Order.objects.filter(user=request.user, ordered=False)
 
@@ -107,7 +107,7 @@ class RemoveItemFromCartAPIView(APIView):
     """ Removes a single item from cart """
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self, request, product_pk):
+    def post(self, request, product_pk):
         item = get_object_or_404(Product, pk=product_pk)
         orders = Order.objects.filter(user=request.user, ordered=False)
 

@@ -5,7 +5,8 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.views import APIView
 from rest_framework.filters import SearchFilter, OrderingFilter
 
-from api_project.api.permissions import IsAdminUserOrReadOnly, IsOwnerOrReadOnly
+from core.api.permissions import IsAdminUserOrReadOnly, IsOwnerOrReadOnly
+from core.api.pagination import ReviewPagination
 from .serializers import (CategorySerializer, KitSerializer,
                           KitReviewSerializer,
                           KitSubscriptionSerializer)
@@ -28,7 +29,7 @@ class KitViewSet(viewsets.ModelViewSet):
     search_filters = ('name', 'description',
                       'products', 'price',)
     ordering_fields = ('name', 'price', 'created_at')
-    ordering = ('-created_at')
+    ordering = ('-created_at',)
 
     def get_queryset(self):
         queryset = Kit.objects.filter(available=True).order_by('-created_at')
@@ -53,7 +54,7 @@ class SubscribeToKitAPIView(generics.CreateAPIView):
         serializer.save(user=user, kit=kit)
 
 
-class CreateKitReviewAPIView(generics.CreateAPIView):
+class KitReviewCreateAPIView(generics.CreateAPIView):
     queryset = Review.objects.all()
     serializer_class = KitReviewSerializer
     permission_classes = (IsSubscribedOrReadOnly,)
@@ -71,6 +72,20 @@ class CreateKitReviewAPIView(generics.CreateAPIView):
                 'You have already reviewed this kit')
 
         serializer.save(user=user, kit=kit)
+
+
+class KitReviewListAPIView(generics.ListAPIView):
+    serializer_class = KitReviewSerializer
+    permission_classes = (IsOwnerOrReadOnly,)
+    pagination_class = ReviewPagination
+    filter_backends = (OrderingFilter,)
+    ordering_fields = ('rating', 'created_at')
+    ordering = ('-created_at',)
+
+    def get_queryset(self):
+        kit_pk = self.kwargs.get('kit_pk')
+        kit = get_object_or_404(Kit, pk=kit_pk)
+        return kit.reviews.all()
 
 
 class KitReviewDetailAPIView(generics.RetrieveUpdateDestroyAPIView):

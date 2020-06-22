@@ -19,7 +19,7 @@ class KitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Kit
-        fields = '__all__'
+        exclude = ('reviews')
         read_only_fields = ('created_at', 'updated_at',)
 
 
@@ -63,6 +63,9 @@ class KitSubscriptionSerializer(SubscriptionSerializer):
             if validated_data.get('save_shipping', False):
                 user.profile.shipping_address = shipping_address
 
+        subscription.related_to_model = 'Kit'
+        subscription.related_to_name = kit.name
+        subscription.related_to_pk = kit.pk
         subscription.save()
         user.profile.subscriptions.add(subscription)
         user.save()

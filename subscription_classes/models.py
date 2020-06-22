@@ -34,8 +34,10 @@ class VideoClassSection(models.Model):
 class VideoClass(models.Model):
     """ Kit Category Video Class  """
     title = models.CharField(max_length=155, unique=True)
-    subscription_plans = models.ManyToManyField(SubscriptionPlan,
-                                                blank=True, related_name='Kit')
+    main_subscription_plan = models.ForeignKey(SubscriptionPlan,
+                                               on_delete=models.CASCADE)
+    subscription_plans = models.ManyToManyField(
+        SubscriptionPlan, blank=True, related_name='subscription_plans')
     slug = models.SlugField(unique=True)
     photo = models.ImageField(upload_to='kits/classes/photos/%Y/%m/%d')
     description = models.TextField(max_length=1000)

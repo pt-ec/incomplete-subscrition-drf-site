@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'orders.apps.OrdersConfig',
     'subscription_kits.apps.SubscriptionKitsConfig',
     'subscription_classes.apps.SubscriptionClassesConfig',
+    'blog.apps.BlogConfig',
 ]
 
 MIDDLEWARE = [

@@ -3,36 +3,51 @@ from rest_framework.routers import DefaultRouter
 
 from .views import (VideoClassViewset,
                     VideoRetrieveAPIView,
-                    ReviewVideoClassAPIView,
-                    ReviewVideoClassDetailAPIView,
-                    CommentVideoAPIView,
+                    VideoDetailAPIView,
+                    VideoClassReviewCreateAPIView,
+                    VideoClassReviewListAPIView,
+                    VideoClassReviewDetailAPIView,
+                    VideoCommentCreateAPIView,
+                    VideoCommentListAPIView,
                     CommentVideoDetailAPIView)
 
+
 router = DefaultRouter()
-router.register(r'video-classes', VideoClassViewset,
+router.register(r'', VideoClassViewset,
                 basename='video-classes')
 
-
 urlpatterns = [
-    path('', include(router.urls)),
+    path('classes/', include(router.urls)),
 
-    path('<int:video_class_pk>/review/',
-         ReviewVideoClassAPIView.as_view(),
+    path('classes/<int:video_class_pk>/review/',
+         VideoClassReviewCreateAPIView.as_view(),
          name='review-video-class'),
 
-    path('reviews/<int:pk>/',
-         ReviewVideoClassDetailAPIView.as_view(),
+    path('classes/<int:video_class_pk>/reviews/',
+         VideoClassReviewListAPIView.as_view(),
+         name='review-video-class'),
+
+    path('class-reviews/<int:pk>/',
+         VideoClassReviewDetailAPIView.as_view(),
          name='video-class-review'),
 
-    path('<int:class_pk>/video/<int:pk>/',
+    path('videos/<int:pk>/',
          VideoRetrieveAPIView.as_view(),
          name='video'),
 
-    path('<int:class_pk>/video/<int:video_pk>/comment/',
-         CommentVideoAPIView.as_view(),
-         name='comment-video'),
+    path('videos/edit/<int:pk>/',
+         VideoDetailAPIView.as_view(),
+         name='video-edit'),
 
-    path('comments/<int:pk>/',
+    path('videos/<int:video_pk>/comment/',
+         VideoCommentCreateAPIView.as_view(),
+         name='video-comment-create'),
+
+    path('videos/<int:video_pk>/comments/',
+         VideoCommentListAPIView.as_view(),
+         name='video-comments'),
+
+    path('video-comments/<int:pk>/',
          CommentVideoDetailAPIView.as_view(),
          name='video-comment'),
 ]
