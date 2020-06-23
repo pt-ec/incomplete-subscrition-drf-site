@@ -3,6 +3,8 @@ import re
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
+from allauth.account.forms import SignupForm
+
 from .models import User
 
 

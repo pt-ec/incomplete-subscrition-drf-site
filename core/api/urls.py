@@ -1,15 +1,10 @@
 from django.urls import path, include
 
 urlpatterns = [
-    path('shop/', include('products.api.urls')),
-
-    path('shop/', include('orders.api.urls')),
+    path('shop/', include('shop.api.urls')),
 
     path('subscription/',
-         include('subscription_classes.api.urls')),
-
-    path('subscription/kits/',
-         include('subscription_kits.api.urls')),
+         include('subscription.api.urls')),
 
     path('blog/', include('blog.api.urls')),
 

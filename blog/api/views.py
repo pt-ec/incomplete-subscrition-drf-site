@@ -2,11 +2,10 @@ from rest_framework import viewsets, generics, permissions
 from rest_framework.filters import OrderingFilter, SearchFilter
 
 from core.api.permissions import IsAdminUserOrReadOnly, IsOwnerOrReadOnly
-from core.api.pagination import CommentPagination
+from core.api.pagination import CommentPagination, PostPagination
 from blog.models import BlogPost
 from profiles.models import Comment
 from .serializers import BlogPostSerializer, CommentBlogPostSerializer
-from .pagination import BlogPagination
 
 
 class BlogPostViewSet(viewsets.ModelViewSet):
@@ -18,7 +17,7 @@ class BlogPostViewSet(viewsets.ModelViewSet):
     search_fields = ('title', 'description', 'author')
     ordering_fields = ('title', 'created_at', 'written_at')
     ordering = ('-written_at',)
-    pagination_class = BlogPagination
+    pagination_class = PostPagination
 
 
 class BlogPostCommentCreateAPIView(generics.CreateAPIView):
@@ -50,5 +49,5 @@ class BlogPostCommentListAPIView(generics.ListAPIView):
 class BlogPostCommentDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     """ Retrieve update destroy comment this Video """
     queryset = Comment.objects.all()
-    serializer_class = VideoCommentSerializer
+    serializer_class = CommentBlogPostSerializer
     permission_classes = (IsOwnerOrReadOnly,)

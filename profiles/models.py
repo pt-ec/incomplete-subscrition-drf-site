@@ -3,7 +3,6 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator, MaxValueValidator
 
-from api_project.extras import schengen_area
 from transactions.models import SubscriptionPlan, BraintreePayment
 User = get_user_model()
 
@@ -14,7 +13,38 @@ class Address(models.Model):
         ('B', 'billing'),
         ('S', 'shipping'),
     ]
-    SCHENGEN_AREA = schengen_area
+    SCHENGEN_AREA = [
+        ('', '(Select Country)'),
+        ('AT', 'Austria'),
+        ('BE', 'Belgium'),
+        ('CZ', 'Czech Republic'),
+        ('DK', 'Denmark'),
+        ('EE', 'Estonia'),
+        ('FI', 'Finland'),
+        ('FR', 'France'),
+        ('DE', 'Germany'),
+        ('GR', 'Greece'),
+        ('HU', 'Hungary'),
+        ('IS', 'Iceland'),
+        ('IT', 'Italy'),
+        ('LV', 'Latvia'),
+        ('LI', 'Liechtenstein'),
+        ('LT', 'Lithuania'),
+        ('LU', 'Luxembourg'),
+        ('MT', 'Malta'),
+        ('MC', 'Monaco'),
+        ('NL', 'Netherlands'),
+        ('NO', 'Norway'),
+        ('PL', 'Poland'),
+        ('PT', 'Portugal'),
+        ('SM', 'San Marino'),
+        ('SK', 'Slovakia'),
+        ('SI', 'Slovenia'),
+        ('ES', 'Spain'),
+        ('SE', 'Sweden'),
+        ('CH', 'Switzerland'),
+        ('GB', 'United Kingdom'),
+    ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)

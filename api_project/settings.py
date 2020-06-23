@@ -53,15 +53,17 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
     # for better array fields
     'django_better_admin_arrayfield',
+    # django crispy forms for login and register
+    'crispy_forms',
+    # webpack loader for vue.js
+    'webpack_loader',
 
     # LOCAL
     'users.apps.UsersConfig',
     'profiles.apps.ProfilesConfig',
-    'products.apps.ProductsConfig',
     'transactions.apps.TransactionsConfig',
-    'orders.apps.OrdersConfig',
-    'subscription_kits.apps.SubscriptionKitsConfig',
-    'subscription_classes.apps.SubscriptionClassesConfig',
+    'shop.apps.ShopConfig',
+    'subscription.apps.SubscriptionConfig',
     'blog.apps.BlogConfig',
 ]
 
@@ -146,7 +148,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'api_project/static')
+]
 
 # Auth User Model
 AUTH_USER_MODEL = 'users.User'
@@ -184,10 +190,13 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_MAX_LENGTH = 255
 
-
+# Simple JWT
 REST_USE_JWT = True
 JWT_AUTH_COOKIE = os.environ.get('JWT_AUTH_COOKIE')
 SITE_ID = 1
+
+# Crispy forms
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # Braintree settings (paypal service)
 BRAINTREE_MERCHANT_ID = os.environ.get('BRAINTREE_MERCHANT_ID')
@@ -200,3 +209,10 @@ BRAINTREE_CONF = braintree.Configuration(
     public_key=BRAINTREE_PUBLIC_KEY,
     private_key=BRAINTREE_PRIVATE_KEY,
 )
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'dist/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'frontend', 'webpack-stats.json')
+    }
+}

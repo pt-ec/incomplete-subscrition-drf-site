@@ -18,3 +18,10 @@ class CommentPagination(PageNumberPagination):
     page_query_param = 'comment_page'
     page_size_query_param = 'comment_page_size'
     max_page_size = 100
+
+
+class PostPagination(PageNumberPagination):
+    page_size = 5
+    page_query_param = 'post_page'
+    page_size_query_param = 'post_page_size'
+    max_page_size = 100
