@@ -1,8 +1,7 @@
-# Conceição Cabral Website
+# Website
 
-**Version 1.0.0**
+**Version 0.0.1**
 
-conceicaocabral.com django project code.
 A website with 5 apps:
 
 - A products app;
@@ -11,15 +10,3 @@ A website with 5 apps:
 - A product/service subscription app.
 
 ---
-
-## Contributors
-
-- Afonso Barracha (main developer) <barracha.afonso@gmail.com>
-- Tiago Barracha <taigobarracha@gmail.com>
-- Conceição Cabral <conceicaocabral.artandglass@gmail.com>
-
----
-
-## Licence & Copyright
-
-© Glass Creative - C.Cabral, Lda.
