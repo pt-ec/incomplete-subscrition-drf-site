@@ -8,7 +8,7 @@ dj-rest-auth==1.0.7
 Django==3.0.7
 django-allauth==0.42.0
 django-better-admin-arrayfield==1.1.0
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 djangorestframework-simplejwt==4.4.0
 idna==2.9
 oauthlib==3.1.0
